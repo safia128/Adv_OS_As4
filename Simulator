@@ -15,7 +15,9 @@ Output files:
     SJF.txt
 
 """
+
 import sys
+import copy
 
 input_file = 'input.txt'
 
@@ -25,9 +27,10 @@ class Process:
         self.id = id
         self.arrive_time = arrive_time
         self.burst_time = burst_time
+        self.last_scheduled_time=arrive_time
     #for printing purpose
     def __repr__(self):
-        return ('[id %d : arrival_time %d,  burst_time %d]'%(self.id, self.arrive_time, self.burst_time))
+        return ('[id %d : arrive_time %d,  burst_time %d]'%(self.id, self.arrive_time, self.burst_time))
 
 def FCFS_scheduling(process_list):
     #store the (switching time, proccess_id) pair
@@ -46,6 +49,11 @@ def FCFS_scheduling(process_list):
 #Input: process_list, time_quantum (Positive Integer)
 #Output_1 : Schedule list contains pairs of (time_stamp, proccess_id) indicating the time switching to that proccess_id
 #Output_2 : Average Waiting Time
+def end_simulation_time(process_list):
+    n = len(process_list)
+    last_process = process_list[n-1]
+    end_time = last_process.arrive_time + last_process.burst_time
+    return end_time+20
 
 def append_schedules(schedule,current_time, process_id):
     n = len(schedule)
@@ -183,6 +191,7 @@ def SJF_scheduling(process_list, alpha):
 
     average_waiting_time = waiting_time / float(len(process_list))
     return schedule, average_waiting_time
+
 
 def read_input():
     result = []
